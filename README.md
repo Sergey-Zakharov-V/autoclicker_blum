@@ -8,7 +8,7 @@
     windows - python -m venv venv
     linux - python3 -m venv venv
 2. Подключаемся к виртуальному окружению
-  windows - venv/Source/activate
+  windows - venv/Scripts/activate
   linux - source venv/bin/activate
 3. Устанавливаем зависимости
    windows - pip install -r req.txt
