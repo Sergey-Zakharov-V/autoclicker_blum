@@ -91,13 +91,21 @@ def find_template(screen_gray, template_gray, threshold):
 
 
 # Загрузка изображений
+template4_path = 'target4.png'
+template4_img = cv2.imread(template4_path)
+template4_gray = cv2.cvtColor(template4_img, cv2.COLOR_BGR2GRAY)
+
 template_path = 'target3.png'
 template_img = cv2.imread(template_path)
 template_gray = cv2.cvtColor(template_img, cv2.COLOR_BGR2GRAY)
 
-template2_path = 'target.png'
+template2_path = 'target2.png'
 template2_img = cv2.imread(template2_path)
 template2_gray = cv2.cvtColor(template2_img, cv2.COLOR_BGR2GRAY)
+
+template3_path = 'target.png'
+template3_img = cv2.imread(template3_path)
+template3_gray = cv2.cvtColor(template3_img, cv2.COLOR_BGR2GRAY)
 
 # Создание окна для выделения области
 selection_window = SelectionWindow()
@@ -109,6 +117,10 @@ def process_screen_and_template(region, template_gray, template2_gray, threshold
     location, confidence = find_template(screen_img, template_gray, threshold=threshold)
     if location is None:
         location, confidence = find_template(screen_img, template2_gray, threshold=threshold)
+    if location is None:
+        location, confidence = find_template(screen_img, template3_gray, threshold=threshold)
+    if location is None:
+        location, confidence = find_template(screen_img, template4_gray, threshold=threshold)
     return location, confidence, screen_img
 
 
@@ -120,7 +132,7 @@ while True:
 
     future = executor.submit(process_screen_and_template, region, template_gray, template2_gray)
 
-    if keyboard.is_pressed('alt') or keyboard.is_pressed('ctrl'):
+    if keyboard.is_pressed('ctrl'):
         continue
 
     location, confidence, screen_img = future.result()
