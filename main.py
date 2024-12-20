@@ -91,10 +91,6 @@ def find_template(screen_gray, template_gray, threshold):
 
 
 # Загрузка изображений
-template4_path = 'target4.png'
-template4_img = cv2.imread(template4_path)
-template4_gray = cv2.cvtColor(template4_img, cv2.COLOR_BGR2GRAY)
-
 template_path = 'target3.png'
 template_img = cv2.imread(template_path)
 template_gray = cv2.cvtColor(template_img, cv2.COLOR_BGR2GRAY)
@@ -112,19 +108,17 @@ selection_window = SelectionWindow()
 region = selection_window.get_selection()
 
 
-def process_screen_and_template(region, template_gray, template2_gray, threshold=0.83):
+def process_screen_and_template(region, template_gray, template2_gray, threshold=0.81):
     screen_img = capture_screen(region)
     location, confidence = find_template(screen_img, template_gray, threshold=threshold)
     if location is None:
         location, confidence = find_template(screen_img, template2_gray, threshold=threshold)
     if location is None:
         location, confidence = find_template(screen_img, template3_gray, threshold=threshold)
-    if location is None:
-        location, confidence = find_template(screen_img, template4_gray, threshold=threshold)
     return location, confidence, screen_img
 
 
-executor = ThreadPoolExecutor(max_workers=4)
+executor = ThreadPoolExecutor(max_workers=1)
 
 while True:
     if keyboard.is_pressed('q'):
