@@ -112,7 +112,7 @@ selection_window = SelectionWindow()
 region = selection_window.get_selection()
 
 
-def process_screen_and_template(region, template_gray, template2_gray, threshold=0.8):
+def process_screen_and_template(region, template_gray, template2_gray, threshold=0.83):
     screen_img = capture_screen(region)
     location, confidence = find_template(screen_img, template_gray, threshold=threshold)
     if location is None:
